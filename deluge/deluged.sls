@@ -47,4 +47,6 @@ deluged:
     - config_path: {{deluge.config_path}}
     - require:
       - service: deluged
+    - watch:
+      - file: {{deluge.config_path}}
 {% endfor %}
