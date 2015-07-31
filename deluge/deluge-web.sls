@@ -13,7 +13,7 @@ include:
     - user: root
     - group: root
     - mode: 644
-    - source: salt://deluge/deluge-all.default
+    - source: salt://deluge/deluge.default
 
 deluge-web:
   pkg:

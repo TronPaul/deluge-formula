@@ -1,11 +1,3 @@
-{% if grains['os_family'] == 'Debian' %}
-python-apt:
-  pkg:
-    - installed
-    - require_in:
-      - pkgrepo: sensu
-{% endif %}
-
 deluge-ppa:
   pkgrepo.managed:
     - humanname: Deluge PPA

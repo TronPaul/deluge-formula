@@ -1,0 +1,4 @@
+deluge:
+  config_dir: /etc/deluge
+  config:
+    download_location: /srv/deluge/downloading
