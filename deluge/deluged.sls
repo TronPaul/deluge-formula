@@ -1,3 +1,4 @@
+{% from "deluge/map.jinja" import deluge with context %}
 include:
   - deluge
   - deluge.deluge-console
@@ -14,7 +15,8 @@ include:
     - user: root
     - group: root
     - mode: 644
-    - source: salt://deluge/deluge.default
+    - template: jinja
+    - source: salt://deluge/deluge.conf.jinja
 
 /var/log/deluge:
   file.directory:
@@ -34,13 +36,14 @@ deluged:
       - file: /var/log/deluge
       - file: /etc/init.d/deluged
       - file: /etc/default/deluged
+      - file: {{deluge.config_path}}
+      - user: {{deluge.user}}
 
-{% set config_dir = salt['pillar.get']('deluge:config_dir') %}
-{% set config = salt['pillar.get']('deluge:config', {}) %}
-
-{% for key, value in config.items() %}
+{% for key, value in deluge.config.items() %}
 {{key}}:
   deluge.config_value:
     - value: {{value}}
-    - config_dir: {{config_dir}}
+    - config_path: {{deluge.config_path}}
+    - require:
+      - service: deluged
 {% endfor %}

@@ -1,0 +1,7 @@
+{% set deluge = salt['grains.filter_by']({
+    'default': {
+        'user': 'deluge',
+        'config_path': '/etc/deluge',
+        'config': {}
+    }
+}, merge=salt['pillar.get']('deluge'), default='default') %}

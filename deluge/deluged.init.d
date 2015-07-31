@@ -20,9 +20,8 @@ DESC="Deluge Daemon"
 NAME="deluged"
 LOGFILE="/var/log/deluge/deluge.log"
 DAEMON=/usr/bin/deluged
-DAEMON_ARGS="-d -L INFO -l $LOGFILE"             # Consult `man deluged` for more options
 PIDFILE=/var/run/$NAME.pid
-UMASK=022                     # Change this to 0 if running deluged as its own user
+UMASK=0                       # Change this to 0 if running deluged as its own user
 PKGNAME=deluged
 SCRIPTNAME=/etc/init.d/$PKGNAME
 
@@ -39,15 +38,11 @@ SCRIPTNAME=/etc/init.d/$PKGNAME
 # Depend on lsb-base (>= 3.0-6) to ensure that this file is present.
 . /lib/lsb/init-functions
 
-if [ -z "$RUN_AT_STARTUP" -o "$RUN_AT_STARTUP" != "YES" ]
-then
-   log_warning_msg "Not starting $PKGNAME, edit /etc/default/$PKGNAME to start it."
-   exit 0
-fi
+DAEMON_ARGS="-d -c $DELUGE_CONFIG_PATH -L INFO -l $LOGFILE"             # Consult `man deluged` for more options
 
-if [ -z "$DELUGED_USER" ]
+if [ -z "$DELUGE_USER" ]
 then
-    log_warning_msg "Not starting $PKGNAME, DELUGED_USER not set in /etc/default/$PKGNAME."
+    log_warning_msg "Not starting $PKGNAME, DELUGE_USER not set in /etc/default/$PKGNAME."
     exit 0
 fi
 
@@ -77,7 +72,7 @@ do_start()
    if [ $RETVAL != 0 ]; then
        rm -f $PIDFILE
        start-stop-daemon --start --background --quiet --pidfile $PIDFILE --make-pidfile \
-       --exec $DAEMON --chuid $DELUGED_USER --user $DELUGED_USER --umask $UMASK -- $DAEMON_ARGS
+       --exec $DAEMON --chuid $DELUGE_USER --user $DELUGE_USER --umask $UMASK -- $DAEMON_ARGS
        RETVAL="$?"
    else
        return 1

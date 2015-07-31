@@ -24,16 +24,16 @@ def __virtual__():
         return __virtualname__
 
 
-def get_config_value(key, config_dir):
-    res = __salt__['cmd.run_all']('deluge-console -c {} config {}'.format(config_dir, key))
+def get_config_value(key, config_path):
+    res = __salt__['cmd.run_all']('deluge-console -c {} config {}'.format(config_path, key))
     if 'Failed to connect' in res['stdout']:
         raise CommandExecutionError(res['stdout'])
     else:
         pattern = RET_RE.format(key)
         return re.match(pattern, res['stdout']).group('value')
 
-def set_config_value(key, value, config_dir):
-    res = __salt__['cmd.run_all']('deluge-console -c {} config -s {} {}'.format(config_dir, key, value))
+def set_config_value(key, value, config_path):
+    res = __salt__['cmd.run_all']('deluge-console -c {} config -s {} {}'.format(config_path, key, value))
     if 'Configuration value successfully updated.' in res['stdout']:
         return True
     else:

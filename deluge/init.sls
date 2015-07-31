@@ -1,3 +1,4 @@
+{% from "deluge/map.jinja" import deluge with context %}
 deluge-ppa:
   pkgrepo.managed:
     - humanname: Deluge PPA
@@ -8,7 +9,16 @@ deluge-ppa:
     - keyserver: keyserver.ubuntu.com
     {% endif %}
 
-deluge:
+{{deluge.user}}:
   user.present:
-    - home: /var/lib/deluge
+    - createhome: False
     - system: True
+    - shell: /usr/sbin/nologin
+
+{{deluge.config_path}}:
+  file.directory:
+    - user: {{deluge.user}}
+    - group: {{deluge.user}}
+    - mode: 740
+    - require:
+      - user: {{deluge.user}}

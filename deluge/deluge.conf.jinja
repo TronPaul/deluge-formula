@@ -1,0 +1,7 @@
+{% from "deluge/map.jinja" import deluge with context %}
+# Configuration for /etc/init.d/deluge-daemon
+
+# The init.d script will only run if this variable non-empty.
+DELUGE_USER="deluge"
+
+DELUGE_CONFIG_PATH="{{deluge.config_path}}"

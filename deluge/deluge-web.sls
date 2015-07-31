@@ -1,3 +1,4 @@
+{% from "deluge/map.jinja" import deluge with context %}
 include:
   - deluge
 
@@ -13,7 +14,8 @@ include:
     - user: root
     - group: root
     - mode: 644
-    - source: salt://deluge/deluge.default
+    - template: jinja
+    - source: salt://deluge/deluge.conf.jinja
 
 deluge-web:
   pkg:
@@ -25,3 +27,5 @@ deluge-web:
     - require:
       - file: /etc/default/deluge-web
       - file: /etc/init.d/deluge-web
+      - file: {{deluge.config_path}}
+      - user: {{deluge.user}}

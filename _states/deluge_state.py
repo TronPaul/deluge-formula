@@ -8,14 +8,14 @@ def __virtual__():
         return False
 
 
-def config_value(name, value, config_dir):
+def config_value(name, value, config_path):
     ret = {'name': name,
            'changes': {},
            'result': True,
            'comment': ''}
-    cv = __salt__['deluge.get_config_value'](name, config_dir)
+    cv = __salt__['deluge.get_config_value'](name, config_path)
     if cv != value:
-        __salt__['deluge.set_config_value'](name, value, config_dir)
+        __salt__['deluge.set_config_value'](name, value, config_path)
         ret['changes'][name] = {'old': cv, 'new': value}
         ret['comment'] = '{} changed from {} to {}'.format(name, cv, value)
         ret['result'] = True
