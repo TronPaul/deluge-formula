@@ -6,3 +6,4 @@ deluge-console:
     - installed
     - require:
       - pkgrepo: deluge-ppa
+    - reload_modules: true
