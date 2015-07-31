@@ -35,9 +35,10 @@ deluged:
     - require:
       - file: /var/log/deluge
       - file: /etc/init.d/deluged
-      - file: /etc/default/deluged
-      - file: {{deluge.config_path}}
       - user: {{deluge.user}}
+    - watch:
+      - file: {{deluge.config_path}}
+      - file: /etc/default/deluged
 
 {% for key, value in deluge.config.items() %}
 {{key}}:

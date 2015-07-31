@@ -25,7 +25,8 @@ deluge-web:
   service.running:
     - enable: True
     - require:
-      - file: /etc/default/deluge-web
       - file: /etc/init.d/deluge-web
-      - file: {{deluge.config_path}}
       - user: {{deluge.user}}
+    - watch:
+      - file: {{deluge.config_path}}
+      - file: /etc/default/deluge-web
