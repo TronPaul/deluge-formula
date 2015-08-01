@@ -91,7 +91,7 @@ do_stop()
    #   2 if daemon could not be stopped
    #   other if a failure occurred
 
-   start-stop-daemon --stop --quiet --retry=TERM/30/KILL/5 --user $DELUGED_USER --pidfile $PIDFILE
+   start-stop-daemon --stop --quiet --retry=TERM/30/KILL/5 --user $DELUGE_USER --pidfile $PIDFILE
    RETVAL="$?"
    [ "$RETVAL" = "2" ] && return 2
 
