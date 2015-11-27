@@ -43,7 +43,7 @@ deluged:
 {% for key, value in deluge.config.items() %}
 {{key}}:
   deluge.config_value:
-    {% if isinstance(value, str) %}
+    {% if value is string %}
     - value: "{{value}}"
     {% else %}
     - value: {{value}}
