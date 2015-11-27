@@ -43,7 +43,11 @@ deluged:
 {% for key, value in deluge.config.items() %}
 {{key}}:
   deluge.config_value:
+    {% if isinstance(value, str) %}
+    - value: "{{value}}"
+    {% else %}
     - value: {{value}}
+    {% endif %}
     - config_path: {{deluge.config_path}}
     - require:
       - service: deluged
